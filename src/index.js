@@ -4,6 +4,8 @@ import i18next from 'i18next';
 import View from './view.js';
 import validateUrl from './validator.js';
 import ruTranslation from './locales/ru.js';
+import parser from './parser.js';
+import renderFeedsPosts from './renderFeedsPosts.js';
 
 const i18n = i18next.createInstance();
 i18n.init({
@@ -13,7 +15,6 @@ i18n.init({
   },
 });
 
-// состояние
 const state = {
   inputForm: {
     valid: true,
@@ -24,18 +25,23 @@ const state = {
   },
 };
 
-const view = new View(i18n); // класс с конструктором
+const view = new View(i18n);
+view.init(state);
 
-view.init(state); // запускаем переменные форм, инпут и создаем watchedstate
-
-const { form, input, watchedState } = view; // выделяем переменные
+const { form, input, watchedState } = view;
 const { urlLinks } = state.inputForm.data;
 
-form.addEventListener('submit', (e) => { // обработчик на форму, при сабмите - валидация
+form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const formData = new FormData(e.target);
   const url = formData.get('url');
-  console.log('suka');
-  validateUrl(url, watchedState, urlLinks, input, form, i18n); // валидатор
+  validateUrl(url, watchedState, urlLinks, input, form, i18n) // валидный url (ссылка) в промисе
+    .then((rssUrl) => parser(rssUrl)) // ссылку url в парсер
+    .then((data) => {
+      renderFeedsPosts(data, i18n); // функция наполняет div на основе данных в объекта feed posts
+    })
+    .catch((error) => {
+      console.log('Форма невалидна, нет смысла продолжать', error);
+    });
 });

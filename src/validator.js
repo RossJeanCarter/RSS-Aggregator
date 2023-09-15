@@ -1,9 +1,7 @@
 import * as yup from 'yup';
 
-// вся асинхронная валидация тут
 const validateUrl = (url, watchedState, urlLinks, input, form, i18n) => {
   /* eslint-disable no-param-reassign */
-
   yup.setLocale({
     mixed: {
       required: () => i18n.t('errors.required'),
@@ -15,21 +13,22 @@ const validateUrl = (url, watchedState, urlLinks, input, form, i18n) => {
   });
 
   const schema = yup.string()
+    .required()
     .url()
-    .notOneOf(urlLinks, i18n.t('errors.shouldBeUnique'))
-    .required();
+    .notOneOf(urlLinks, i18n.t('errors.shouldBeUnique'));
 
-  schema.validate(url)
+  return schema.validate(url)
     .then((validData) => {
       watchedState.inputForm.valid = true;
       watchedState.inputForm.data.urlLinks.push(validData);
       form.reset();
       input.focus();
+      return validData;
     })
     .catch((error) => {
       watchedState.inputForm.valid = false;
       watchedState.inputForm.errors = [error.message];
-      console.log(error.message);
+      return Promise.reject(error);
     });
 };
 

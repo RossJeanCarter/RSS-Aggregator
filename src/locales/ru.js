@@ -3,6 +3,8 @@ export default {
     languages: {
       ru: 'Русский',
     },
+    feeds: 'Фиды',
+    posts: 'Посты',
     validated: 'RSS успешно загружен',
     errors: {
       required: 'Это обязательное поле',

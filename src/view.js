@@ -1,5 +1,5 @@
 import onChange from 'on-change';
-// вся отрисовка тут
+
 class View {
   constructor(i18n) {
     this.form = null;
@@ -18,15 +18,14 @@ class View {
 
   renderError() {
     const { errors } = this.watchedState.inputForm;
-    this.input.style.border = '2px solid red';
     const [error] = errors;
+    this.input.style.border = '2px solid red';
     this.divMessage.textContent = error;
     this.divMessage.classList.add('text-danger');
   }
 
   renderValid() {
     this.input.style.border = '';
-    this.divMessage.textContent = '';
     this.divMessage.classList.remove('text-danger');
     this.divMessage.style.color = 'green';
     this.divMessage.textContent = this.i18n.t('validated');

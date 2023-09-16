@@ -1,3 +1,5 @@
+const bigFeed = [];
+const bigPosts = [];
 export default (xmlDoc) => {
   const feeds = [];
   const posts = [];
@@ -19,6 +21,9 @@ export default (xmlDoc) => {
     });
     postIdCounter += 1;
   });
+  bigFeed.push(...feeds);
+  bigPosts.push(...posts);
+
   return {
     feeds,
     posts,

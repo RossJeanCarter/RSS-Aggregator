@@ -10,11 +10,8 @@ export default (titleText) => {
   cardTitle.classList.add('card-title', 'h4');
   cardTitle.textContent = titleText;
 
-  const ul = document.createElement('ul');
-  ul.classList.add('list-group', 'border-0', 'rounded-0');
-
   cardBody.append(cardTitle);
-  container.append(cardBody, ul);
+  container.append(cardBody);
 
-  return { container, ul };
+  return container;
 };

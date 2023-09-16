@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const validateUrl = (url, watchedState, urlLinks, input, form, i18n) => {
+export default (url, watchedState, urlLinks, input, form, i18n) => {
   /* eslint-disable no-param-reassign */
   yup.setLocale({
     mixed: {
@@ -31,5 +31,3 @@ const validateUrl = (url, watchedState, urlLinks, input, form, i18n) => {
       return Promise.reject(error);
     });
 };
-
-export default validateUrl;

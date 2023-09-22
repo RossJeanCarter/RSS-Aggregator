@@ -1,17 +1,10 @@
-export default (titleText) => {
-  const container = document.createElement('div');
-  container.classList.add('card', 'border-0');
+import createContainer from './createContainer.js';
 
-  const cardBody = document.createElement('div');
-  cardBody.classList.add('card-body');
-
-  cardBody.innerHTML = '';
-  const cardTitle = document.createElement('h2');
-  cardTitle.classList.add('card-title', 'h4');
-  cardTitle.textContent = titleText;
-
-  cardBody.append(cardTitle);
-  container.append(cardBody);
-
-  return container;
+export default (title, type, i18n, renderLi) => {
+  const ul = document.createElement('ul'); // создали ul
+  ul.classList.add('list-group', 'border-0', 'rounded-0');
+  const container = createContainer(i18n.t(title)); // создали контейнер с title feeds или posts
+  ul.append(...renderLi(type)); // в ul добавили список из li
+  container.append(ul);
+  return container;// возвращаем контейнер
 };

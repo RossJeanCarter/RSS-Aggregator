@@ -19,6 +19,18 @@ export default (posts) => {
     button.setAttribute('data-bs-target', '#modal');
     button.textContent = 'Просмотр';
 
+    button.addEventListener('click', (e) => {
+      const activeId = e.target.getAttribute('data-id');
+      const { title: activeTitle, description: activeDescription } = posts
+        .find((post) => post.id === activeId);
+      const modalTitle = document.querySelector('.modal-title');
+      const modalBody = document.querySelector('.modal-body');
+      modalTitle.textContent = activeTitle;
+      modalBody.textContent = activeDescription;
+      const readButton = document.querySelector('.btn');
+      readButton.href = link;
+    });
+
     li.append(aElement, button);
     return li;
   });

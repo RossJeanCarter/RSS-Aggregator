@@ -10,6 +10,7 @@ export default {
       required: 'Это обязательное поле',
       shouldBeValid: 'Ссылка должна быть валидным URL',
       shouldBeUnique: 'RSS уже существует',
+      shouldContainRss: 'Ресурс не содержит валидный RSS',
     },
   },
 };

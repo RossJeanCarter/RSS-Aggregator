@@ -1,9 +1,11 @@
-export default (i18n, parser, watchedState, urlLinks, renderFeedsPosts) => {
+export default (parser, watchedState, urlLinks) => {
   const updateData = () => {
     Promise.all(urlLinks.map((rssUrl) => parser(rssUrl, watchedState)))
-      .then((dataArray) => {
-        dataArray.forEach((data) => {
-          renderFeedsPosts(data, i18n, watchedState);
+      .then((parsedData) => {
+        parsedData.forEach((data) => {
+          // eslint-disable-next-line no-param-reassign
+          const { newData } = watchedState.form.data;
+          newData.push(data);
         });
       })
       .catch((error) => {

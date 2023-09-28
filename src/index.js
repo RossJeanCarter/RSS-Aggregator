@@ -1,14 +1,12 @@
 import './styles.scss';
 import 'bootstrap';
 import i18next from 'i18next';
-import View from './view.js';
-import validateUrl from './validator.js';
+import View from './view/view.js';
+import validateUrl from './utils/validator.js';
 import ruTranslation from './locales/ru.js';
-import parser from './parser.js';
-import renderFeedsPosts from './renderFeedsPosts.js';
+import parser from './utils/parser.js';
 import updateData from './updateData.js';
 
-// инициализация библиотеки переводов
 const i18n = i18next.createInstance();
 i18n.init({
   lng: 'ru',
@@ -17,44 +15,41 @@ i18n.init({
   },
 });
 
-// начальное состояние
 const state = {
-  inputForm: {
-    valid: true,
+  form: {
     data: {
-      urlLinks: [], // каждые 5 секунда проверка всех urlLinks, запросы через parser.
+      urlLinks: [],
       feeds: [],
       posts: [],
+      newData: [],
     },
     errors: [],
+    uiState: {
+      clickedPosts: [],
+    },
   },
 };
-// создаём класс View, отвечает за отображение, watchedstate
-const view = new View(i18n);
-view.init(state); // инициализируем метод init, создаётся watchedstate и основные элементы для работ
-// получаем элементы
-const { form, input, watchedState } = view;
-const { urlLinks } = state.inputForm.data;
 
-// при отправки формы, внутри обработчика происходит следующее.
+const view = new View(i18n);
+view.init(state);
+
+const { form, input, watchedState } = view;
+const { urlLinks, newData } = state.form.data;
+
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
-  const url = formData.get('url'); // получили URL, который ввели
-  validateUrl(url, watchedState, urlLinks, input, form, i18n) // валидный url (ссылка) в промисе,
-  // либо ошибка в промисе
-  // теперь в parser нужно сделать запрос по url для получения данных
-    .then((rssUrl) => parser(rssUrl, watchedState)) // объект {feeds, posts}
-    .then((data) => {
-      // передаем {feeds, posts}  в renderFeedsPosts
-      renderFeedsPosts(data, i18n, watchedState); // функция наполняет div на основе данных
-      // в объекте feed posts
+  const url = formData.get('url');
+  validateUrl(url, watchedState, urlLinks, input, form, i18n)
+    .then((rssUrl) => parser(rssUrl))
+    .then((parsedData) => {
+      newData.push(parsedData);
     })
     .then(() => {
-      updateData(i18n, parser, watchedState, urlLinks, renderFeedsPosts); // обновляем данные
-      // каждые 5 сек
+      updateData(parser, watchedState, urlLinks);
     })
     .catch((error) => {
-      console.log('Форма невалидна, нет смысла продолжать', error);
+      watchedState.form.errors = [i18n.t('errors.shouldContainRss')];
+      console.log('Форма невалидна', error);
     });
 });

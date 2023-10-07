@@ -5,11 +5,12 @@ import renderLiPosts from './renderLiPosts.js';
 export default (data, i18n, watchedState) => {
   const { parsedFeeds, parsedPosts } = data;
   const { feeds, posts } = watchedState.form.data;
-  const feedsFiltered = parsedFeeds.filter((feed) => !feeds
-    .some((existingFeed) => existingFeed.title === feed.title));
 
-  const postsFiltered = parsedPosts.filter((post) => !posts
-    .some((existingPost) => existingPost.title === post.title));
+  const filterData = (parsedData, collection) => parsedData.filter((item) => !collection
+    .some((existingFeed) => existingFeed.title === item.title));
+
+  const feedsFiltered = filterData(parsedFeeds, feeds);
+  const postsFiltered = filterData(parsedPosts, posts);
 
   const feedsDiv = document.querySelector('.feeds');
   const postsDiv = document.querySelector('.posts');

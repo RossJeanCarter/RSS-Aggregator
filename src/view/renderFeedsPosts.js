@@ -40,4 +40,3 @@ export default (data, i18n, watchedState) => {
     });
   });
 };
-s

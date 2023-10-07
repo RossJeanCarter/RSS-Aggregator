@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export default (url, watchedState, urlLinks, input, form, i18n) => {
+export default (url, watchedState, urlLinks, input, form, i18n, parser) => {
   /* eslint-disable no-param-reassign */
   yup.setLocale({
     mixed: {
@@ -12,17 +12,19 @@ export default (url, watchedState, urlLinks, input, form, i18n) => {
     },
   });
 
-  const schema = yup.string()
-    .required()
-    .url()
-    .notOneOf(urlLinks);
+  const schema = yup.string().required().url().notOneOf(urlLinks);
 
   return schema.validate(url)
+    .then((validUrl) => {
+      const validData = parser(validUrl, i18n); // сократить до parser
+      return validData;
+    })
     .then((validData) => {
-      watchedState.form.data.urlLinks.push(validData);
+      const { parsedData, rssUrl } = validData;
+      urlLinks.push(rssUrl);
       form.reset();
       input.focus();
-      return validData;
+      return parsedData;
     })
     .catch((error) => {
       watchedState.form.errors = [error.message];

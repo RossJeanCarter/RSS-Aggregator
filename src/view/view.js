@@ -45,6 +45,8 @@ class View {
     const { newData } = this.watchedState.form.data;
     const data = _.last(newData);
     renderFeedsPosts(data, this.i18n, this.watchedState);
+    const element = document.querySelector('[aria-label="add"]');
+    element.textContent = 'Добавить';
   }
 
   createWatcher(state) {

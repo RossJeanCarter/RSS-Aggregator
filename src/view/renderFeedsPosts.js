@@ -5,7 +5,6 @@ import renderLiPosts from './renderLiPosts.js';
 export default (data, i18n, watchedState) => {
   const { parsedFeeds, parsedPosts } = data;
   const { feeds, posts } = watchedState.form.data;
-
   const feedsFiltered = parsedFeeds.filter((feed) => !feeds
     .some((existingFeed) => existingFeed.title === feed.title));
 

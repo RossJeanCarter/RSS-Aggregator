@@ -23,7 +23,7 @@ export default (data, i18n, watchedState) => {
     const feedsUl = feedsDiv.querySelector('ul');
     const postsUl = postsDiv.querySelector('ul');
     feedsUl.prepend(...renderLiFeeds(feedsFiltered));
-    postsUl.prepend(...renderLiPosts(postsFiltered));
+    postsUl.prepend(...renderLiPosts(postsFiltered, i18n));
   }
   feeds.push(...feedsFiltered);
   posts.push(...postsFiltered);

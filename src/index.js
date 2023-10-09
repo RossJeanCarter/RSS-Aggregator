@@ -35,6 +35,17 @@ const state = {
   },
 };
 
+function updateLocalization() {
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    const key = element.getAttribute('data-i18n');
+    // eslint-disable-next-line no-param-reassign
+    element.textContent = i18n.t(key);
+  });
+}
+
+// Вызовите эту функцию после инициализации i18n и при изменении языка
+updateLocalization();
+
 const view = new View(i18n);
 view.init(state);
 

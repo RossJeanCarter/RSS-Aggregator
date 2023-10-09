@@ -1,10 +1,12 @@
 export default {
   translation: {
-    feeds: 'Фиды',
-    posts: 'Посты',
-    submit: 'Подождите...',
-    preview: 'Просмотр',
-    validated: 'RSS успешно загружен',
+    common: {
+      feeds: 'Фиды',
+      posts: 'Посты',
+      submit: 'Подождите...',
+      preview: 'Просмотр',
+      validated: 'RSS успешно загружен',
+    },
     buttons: {
       add: 'Добавить',
       readFullArticle: 'Читать полностью',

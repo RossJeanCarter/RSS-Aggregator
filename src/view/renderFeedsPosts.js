@@ -17,8 +17,8 @@ export default (data, i18n, watchedState) => {
   const existingDiv = document.querySelector('.card');
 
   if (!existingDiv) {
-    feedsDiv.append(fillContainer('feeds', parsedFeeds, i18n, renderLiFeeds));
-    postsDiv.append(fillContainer('posts', parsedPosts, i18n, renderLiPosts));
+    feedsDiv.append(fillContainer('common.feeds', parsedFeeds, i18n, renderLiFeeds));
+    postsDiv.append(fillContainer('common.posts', parsedPosts, i18n, renderLiPosts));
   } else {
     const feedsUl = feedsDiv.querySelector('ul');
     const postsUl = postsDiv.querySelector('ul');

@@ -1,10 +1,12 @@
 export default {
   translation: {
-    feeds: 'Feeds',
-    posts: 'Posts',
-    submit: 'Wait...',
-    preview: 'Preview',
-    validated: 'RSS successfully uploaded',
+    common: {
+      feeds: 'Feeds',
+      posts: 'Posts',
+      submit: 'Wait...',
+      preview: 'Preview',
+      validated: 'RSS successfully uploaded',
+    },
     buttons: {
       add: 'Add',
       readFullArticle: 'Read the whole article',

@@ -29,7 +29,7 @@ class View {
     this.input.style.border = '';
     this.notificationBox.classList.remove('text-danger');
     this.notificationBox.style.color = 'green';
-    this.notificationBox.textContent = this.i18n.t('validated');
+    this.notificationBox.textContent = this.i18n.t('common.validated');
   }
 
   renderLink() {
@@ -45,6 +45,8 @@ class View {
     const { newData } = this.watchedState.form.data;
     const data = _.last(newData);
     renderFeedsPosts(data, this.i18n, this.watchedState);
+    const element = document.querySelector('[aria-label="add"]');
+    element.textContent = 'Добавить';
   }
 
   createWatcher(state) {

@@ -9,7 +9,7 @@ import parser from './utils/parser.js';
 import updateData from './updateData.js';
 import showLoadingMessage from './view/showLoadingMessage.js';
 
-const defaultLanguage = 'ru';
+const defaultLanguage = 'en';
 
 const i18n = i18next.createInstance();
 i18n.init({
@@ -19,6 +19,16 @@ i18n.init({
     en: enTranslation,
   },
 });
+
+const updateLocalization = () => {
+  document.querySelectorAll('[data-i18n]').forEach((element) => {
+    const key = element.getAttribute('data-i18n');
+    // eslint-disable-next-line no-param-reassign
+    element.textContent = i18n.t(key);
+  });
+};
+
+updateLocalization();
 
 const state = {
   form: {

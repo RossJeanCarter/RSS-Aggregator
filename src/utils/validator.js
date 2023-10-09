@@ -16,7 +16,7 @@ export default (url, watchedState, urlLinks, input, form, i18n, parser) => {
 
   return schema.validate(url)
     .then((validUrl) => {
-      const validData = parser(validUrl, i18n); // сократить до parser
+      const validData = parser(validUrl, i18n);
       return validData;
     })
     .then((validData) => {

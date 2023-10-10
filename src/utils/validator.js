@@ -28,6 +28,6 @@ export default (url, watchedState, urlLinks, input, form, i18n, parser) => {
     })
     .catch((error) => {
       watchedState.form.errors = [error.message];
-      return Promise.reject(error);
+      throw error;
     });
 };

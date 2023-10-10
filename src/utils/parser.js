@@ -10,7 +10,6 @@ export default (rssUrl, i18n) => axios.get(`https://allorigins.hexlet.app/get?di
     const parsedData = extractFeedsPosts(xmlDoc);
     return { parsedData, rssUrl };
   })
-  .catch(() => {
-    const error = new Error(i18n.t('errors.shouldContainRss'));
-    return Promise.reject(error);
+  .catch((error) => {
+    throw new Error(i18n.t(error.message === 'Network Error' ? 'errors.networkError' : 'errors.shouldContainRss'));
   });

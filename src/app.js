@@ -3,8 +3,7 @@ import i18next from 'i18next';
 import axios from 'axios';
 import { uniqueId } from 'lodash';
 import * as yup from 'yup';
-import ruTranslation from './locales/ru.js';
-import enTranslation from './locales/en.js';
+import resources from './locales/index.js';
 import render from './render.js';
 import parseRSS from './utils/parser.js';
 
@@ -73,10 +72,7 @@ export default () => {
 
   i18n.init({
     lng: defaultLanguage,
-    resources: {
-      ru: ruTranslation,
-      en: enTranslation,
-    },
+    resources,
   })
     .then(() => {
       updateLocalization(i18n);

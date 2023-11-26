@@ -1,15 +1,22 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import axios from 'axios';
-import extractFeedsPosts from './extractFeedsPosts.js';
+export default (rssData, i18n) => {
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(rssData, 'text/xml');
+  const rootTagName = xmlDoc.documentElement.tagName.toLowerCase();
+  if (rootTagName !== 'rss') throw new Error(i18n.t('errors.shouldContainRss'));
 
-export default (rssUrl, i18n) => axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(rssUrl)}`)
-  .then((response) => {
-    const rssData = response.data.contents;
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(rssData, 'text/xml');
-    const parsedData = extractFeedsPosts(xmlDoc);
-    return { parsedData, rssUrl };
-  })
-  .catch((error) => {
-    throw new Error(i18n.t(error.message === 'Network Error' ? 'errors.networkError' : 'errors.shouldContainRss'));
+  const itemsElements = xmlDoc.querySelectorAll('item');
+
+  const items = [...itemsElements].map((item) => {
+    const title = item.querySelector('title').textContent;
+    const description = item.querySelector('description').textContent;
+    const link = item.querySelector('link').textContent;
+    return { title, description, link };
   });
+
+  const parsedData = {
+    title: xmlDoc.querySelector('channel > title').textContent,
+    description: xmlDoc.querySelector('channel > description').textContent,
+    items,
+  };
+  return parsedData;
+};

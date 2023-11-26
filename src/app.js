@@ -18,17 +18,11 @@ const updateLocalization = (i18n) => {
 
 const generateUrl = (url) => `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`;
 
-const getHttpContents = (url, i18n) => {
-  try {
-    return axios.get(generateUrl(url))
-      .then((response) => {
-        const { contents } = response.data;
-        return contents;
-      });
-  } catch (error) {
-    throw new Error(i18n.t('errors.networkError'));
-  }
-};
+const getHttpContents = (url) => axios.get(generateUrl(url))
+  .then((response) => {
+    const { contents } = response.data;
+    return contents;
+  });
 
 const addPosts = (feedId, items, state) => {
   const posts = items.map((item) => ({ feedId, id: uniqueId(), ...item }));
@@ -130,6 +124,7 @@ export default () => {
         state.form.error = '';
         const urlLinks = state.feeds.map(({ link }) => link);
         const schema = yup.string().required().url().notOneOf(urlLinks);
+
         schema.validate(state.form.url)
           .then((url) => {
             state.form.state = 'sending';
@@ -146,7 +141,7 @@ export default () => {
             addPosts(feedId, items, state);
           })
           .catch((error) => {
-            const message = error.message ?? 'default';
+            const message = error.message === 'Network Error' ? i18n.t('errors.networkError') : error.message;
             state.form.error = message;
           })
           .finally(() => {

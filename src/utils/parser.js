@@ -1,8 +1,15 @@
 export default (rssData, i18n) => {
   const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(rssData, 'text/xml');
-  const rootTagName = xmlDoc.documentElement.tagName.toLowerCase();
-  if (rootTagName !== 'rss') throw new Error(i18n.t('errors.shouldContainRss'));
+  const xmlDoc = parser.parseFromString(rssData, 'application/xml');
+
+  const parserError = xmlDoc.querySelector('parsererror');
+  if (parserError) {
+    const errorMessage = i18n.t('errors.shouldContainRss');
+    const error = new Error(errorMessage);
+    error.isParserError = true;
+    error.localizedErrorMessage = errorMessage;
+    throw error;
+  }
 
   const itemsElements = xmlDoc.querySelectorAll('item');
 

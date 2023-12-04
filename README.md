@@ -10,7 +10,7 @@ RSS aggregator is a software application or remotely hosted service that collect
 
 ## Installation:
 ```
-git clone git@github.com:andrew-walker91/RSS-aggregator
+git clone https://github.com/RossJeanCarter/RSS-Aggregator.git
 make install
 make build
 ```
